@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://g56mntsxuu7g"]
+
+[ext_resource type="Material" uid="uid://cjxor3nf03y3" path="res://shaders/tile_grid/tile_grid.tres" id="1_erj7i"]
+[ext_resource type="Script" path="res://scripts/multiplayer.gd" id="3_v3tna"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7wos6"]
+
+[sub_resource type="Sky" id="Sky_kix8k"]
+sky_material = SubResource("ProceduralSkyMaterial_7wos6")
+
+[sub_resource type="Environment" id="Environment_ahbk3"]
+background_mode = 2
+sky = SubResource("Sky_kix8k")
+
+[node name="controller_test" type="Node3D"]
+script = ExtResource("3_v3tna")
+
+[node name="stage" type="Node3D" parent="."]
+
+[node name="floor" type="CSGBox3D" parent="stage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(20, 1, 20)
+material = ExtResource("1_erj7i")
+
+[node name="env" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="env"]
+environment = SubResource("Environment_ahbk3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="env"]
+transform = Transform3D(-0.875088, -0.128396, 0.466621, 0.18746, 0.798972, 0.571404, -0.446183, 0.587502, -0.675101, 0, 10, 0)
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://players/player.tscn")
+spawn_path = NodePath("..")

@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://10rl66lbwx5t"]
+
+[ext_resource type="PackedScene" uid="uid://bsqbeq3a8rpfu" path="res://levels/test_level/modeling.glb" id="1_heiju"]
+[ext_resource type="Script" path="res://levels/test_level/modeling.gd" id="2_4cayy"]
+[ext_resource type="Script" path="res://levels/test_level/Marker3D_move.gd" id="3_fi8pq"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_wx54k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mv7y5"]
+shading_mode = 0
+albedo_color = Color(5, 2, 0.114, 1)
+
+[sub_resource type="Environment" id="Environment_4pcv5"]
+glow_enabled = true
+glow_intensity = 1.64
+glow_strength = 0.66
+glow_blend_mode = 1
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 8, 8)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.742626, 0.219532, -0.632702, 0.196359, 0.831849, 0.519105, 0.640273, -0.509738, 0.574646, 0, 3.84234, 6.24699)
+shadow_enabled = true
+shadow_opacity = 0.5
+sky_mode = 1
+
+[node name="modeling" parent="." instance=ExtResource("1_heiju")]
+script = ExtResource("2_4cayy")
+
+[node name="Marker3D" type="Marker3D" parent="."]
+gizmo_extents = 3.04
+script = ExtResource("3_fi8pq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Marker3D"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, -8)
+mesh = SubResource("SphereMesh_wx54k")
+surface_material_override/0 = SubResource("StandardMaterial3D_mv7y5")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4pcv5")
