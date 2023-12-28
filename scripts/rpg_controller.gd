@@ -4,6 +4,12 @@ extends CharacterBody3D
 const SPEED = 10.0
 const JUMP_VELOCITY = 10.0
 
+var abilities_cd = [
+	{"left_click" : 2,
+	"on_cd" : false}
+]
+
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = 20.0
 
@@ -22,6 +28,21 @@ func _unhandled_input(event):
 		rotate_y(-event.relative.x * 0.005)
 		camera.rotate_x(-event.relative.y * 0.005)
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
+
+func _input(event):
+	if not is_multiplayer_authority(): return
+	if Input.is_action_just_pressed("left_click"):
+		print(name + ": action")
+		shoot.rpc()
+		
+@rpc("call_local")
+func shoot():
+	if !abilities_cd[0]["on_cd"]:
+		abilities_cd[0]["on_cd"] = true
+		$arrow.scale = Vector3(0.3, 0.3, 0.3)
+		await get_tree().create_timer(1.0).timeout
+		$arrow.scale = Vector3(0.1, 0.1, 0.1)
+		abilities_cd[0]["on_cd"] = false
 
 func _physics_process(delta):
 	if not is_multiplayer_authority(): return
