@@ -4,10 +4,10 @@ extends CharacterBody3D
 const SPEED = 10.0
 const JUMP_VELOCITY = 10.0
 
-var abilities_cd = [
-	{"left_click" : 2,
-	"on_cd" : false}
-]
+var abilities_cd = {
+	"left_click_cd" : 1,
+	"left_click_on_cd" : false
+	}
 
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -37,12 +37,12 @@ func _input(event):
 		
 @rpc("call_local")
 func shoot():
-	if !abilities_cd[0]["on_cd"]:
-		abilities_cd[0]["on_cd"] = true
+	if !abilities_cd["left_click_on_cd"]:
+		abilities_cd["left_click_on_cd"] = true
 		$arrow.scale = Vector3(0.3, 0.3, 0.3)
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(abilities_cd["left_click_cd"]).timeout
 		$arrow.scale = Vector3(0.1, 0.1, 0.1)
-		abilities_cd[0]["on_cd"] = false
+		abilities_cd["left_click_on_cd"] = false
 
 func _physics_process(delta):
 	if not is_multiplayer_authority(): return
