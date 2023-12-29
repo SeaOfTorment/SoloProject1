@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://g56mntsxuu7g"]
 
-[ext_resource type="Material" uid="uid://cjxor3nf03y3" path="res://shaders/tile_grid/tile_grid.tres" id="1_erj7i"]
+[ext_resource type="PackedScene" uid="uid://bgqvur181hahf" path="res://assets/env/environment.tscn" id="2_uouvs"]
 [ext_resource type="Script" path="res://scripts/multiplayer.gd" id="3_v3tna"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7wos6"]
@@ -11,17 +11,24 @@ sky_material = SubResource("ProceduralSkyMaterial_7wos6")
 [sub_resource type="Environment" id="Environment_ahbk3"]
 background_mode = 2
 sky = SubResource("Sky_kix8k")
+tonemap_mode = 3
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+glow_enabled = true
+glow_strength = 0.8
+glow_blend_mode = 1
+fog_enabled = true
+fog_light_color = Color(0.313726, 0.384314, 0.501961, 1)
+adjustment_enabled = true
+adjustment_contrast = 1.25
 
 [node name="controller_test" type="Node3D"]
 script = ExtResource("3_v3tna")
 
 [node name="stage" type="Node3D" parent="."]
 
-[node name="floor" type="CSGBox3D" parent="stage"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-use_collision = true
-size = Vector3(20, 1, 20)
-material = ExtResource("1_erj7i")
+[node name="Environment" parent="stage" instance=ExtResource("2_uouvs")]
 
 [node name="env" type="Node3D" parent="."]
 
@@ -30,6 +37,7 @@ environment = SubResource("Environment_ahbk3")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="env"]
 transform = Transform3D(-0.875088, -0.128396, 0.466621, 0.18746, 0.798972, 0.571404, -0.446183, 0.587502, -0.675101, 0, 10, 0)
+shadow_enabled = true
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://players/player.tscn")

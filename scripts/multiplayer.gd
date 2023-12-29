@@ -23,4 +23,6 @@ func _input(event):
 func add_player(peer_id):
 	var player = PLAYER.instantiate()
 	player.name = str(peer_id)
+	player.position = Vector3(0,6,0)	
 	add_child(player)
+	

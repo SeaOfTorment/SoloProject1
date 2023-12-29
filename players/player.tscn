@@ -1,12 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://h1dbhqtpgf1"]
+[gd_scene load_steps=9 format=3 uid="uid://h1dbhqtpgf1"]
 
 [ext_resource type="Script" path="res://scripts/rpg_controller.gd" id="1_pbjc4"]
+[ext_resource type="Texture2D" uid="uid://cnctyt8ksl3rs" path="res://players/face.jpg" id="2_6bqld"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d4jvm"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_p5ogp"]
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_36d4b"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_yq78v"]
 properties/0/path = NodePath(".:position")
@@ -16,9 +15,25 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_puuah"]
+bg_color = Color(0.113725, 0.0313726, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6dvvb"]
+bg_color = Color(0.87451, 0.415686, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_uuat2"]
+viewport_path = NodePath("SubViewport")
+
 [node name="player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-collision_layer = 2
 script = ExtResource("1_pbjc4")
 
 [node name="player_collision" type="CollisionShape3D" parent="."]
@@ -30,9 +45,52 @@ mesh = SubResource("CapsuleMesh_p5ogp")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="arrow" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0, 0, -0.568)
-mesh = SubResource("CylinderMesh_36d4b")
-
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_yq78v")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 384.0
+offset_right = -384.0
+offset_bottom = 69.0
+grow_horizontal = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/background = SubResource("StyleBoxFlat_puuah")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6dvvb")
+value = 100.0
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(302, 62)
+
+[node name="ProgressBar" type="ProgressBar" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/background = SubResource("StyleBoxFlat_puuah")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6dvvb")
+value = 100.0
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1.61384, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_uuat2")
+
+[node name="face" type="Sprite3D" parent="."]
+transform = Transform3D(-0.15, 0, -1.31134e-08, 0, 0.15, 0, 1.31134e-08, 0, -0.15, 0, 0.706, -0.535)
+double_sided = false
+texture = ExtResource("2_6bqld")

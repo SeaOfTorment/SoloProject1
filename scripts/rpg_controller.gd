@@ -1,12 +1,14 @@
 extends CharacterBody3D
 
 @onready var camera = $Camera3D
+const ENERGY_SHOT = preload("res://assets/components/energy_shot.tscn")
 const SPEED = 10.0
 const JUMP_VELOCITY = 10.0
+var health = 100
 
 var abilities_cd = {
-	"left_click_cd" : 1,
-	"left_click_on_cd" : false
+	"left_click_cd" : 1.0,
+	"left_click_cd_left" : 0.0,
 	}
 
 
@@ -32,20 +34,43 @@ func _unhandled_input(event):
 func _input(event):
 	if not is_multiplayer_authority(): return
 	if Input.is_action_just_pressed("left_click"):
-		print(name + ": action")
 		shoot.rpc()
+
+@rpc("call_local")
+func update_hp_bar():
+	$SubViewport/ProgressBar.value = health
+	$CanvasLayer/ProgressBar.value = health
+	if health == 0:
+		print("dead")
 		
 @rpc("call_local")
 func shoot():
-	if !abilities_cd["left_click_on_cd"]:
-		abilities_cd["left_click_on_cd"] = true
-		$arrow.scale = Vector3(0.3, 0.3, 0.3)
-		await get_tree().create_timer(abilities_cd["left_click_cd"]).timeout
-		$arrow.scale = Vector3(0.1, 0.1, 0.1)
-		abilities_cd["left_click_on_cd"] = false
+	if abilities_cd["left_click_cd_left"] <= 0.0:
+		abilities_cd["left_click_cd_left"] = abilities_cd["left_click_cd"]
+		print(name + ": left_click")
+		var energy_shot = ENERGY_SHOT.instantiate()
+		$"../".add_child(energy_shot)
+		energy_shot.global_position = global_position
+		energy_shot.rotation_degrees = camera.global_rotation_degrees
+		
+@rpc("call_local")
+func share_cds():
+	abilities_cd["left_click_cd_left"] = int(0)
 
 func _physics_process(delta):
 	if not is_multiplayer_authority(): return
+	
+	#cds
+	if abilities_cd["left_click_cd_left"] > 0.0:
+		abilities_cd["left_click_cd_left"] -= delta
+	elif abilities_cd["left_click_cd_left"] < 0.0:
+		print("fixing")
+		abilities_cd["left_click_cd_left"] = int(0)
+		share_cds.rpc()
+		
+		#print("fixed - " abilities_cd["left_click_cd_left"] - 0.0)
+		#$arrow.scale = Vector3(0.1, 0.1, 0.1)
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
