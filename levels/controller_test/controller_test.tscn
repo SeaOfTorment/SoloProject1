@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://g56mntsxuu7g"]
+[gd_scene load_steps=7 format=3 uid="uid://g56mntsxuu7g"]
 
 [ext_resource type="PackedScene" uid="uid://bgqvur181hahf" path="res://assets/env/environment.tscn" id="2_uouvs"]
+[ext_resource type="PackedScene" uid="uid://drekehqvvv4ug" path="res://ui/main_menu.tscn" id="3_aitxm"]
 [ext_resource type="Script" path="res://scripts/multiplayer.gd" id="3_v3tna"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7wos6"]
@@ -48,60 +49,4 @@ spawn_path = NodePath("..")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="main_menu" type="MarginContainer" parent="CanvasLayer"]
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -102.0
-offset_bottom = 102.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 300
-theme_override_constants/margin_right = 300
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/main_menu"]
-layout_mode = 2
-metadata/_edit_use_anchors_ = true
-
-[node name="status" type="Label" parent="CanvasLayer/main_menu/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "STATUS"
-horizontal_alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/main_menu/VBoxContainer"]
-layout_mode = 2
-
-[node name="name_entry" type="LineEdit" parent="CanvasLayer/main_menu/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-placeholder_text = "Enter name"
-expand_to_text_length = true
-
-[node name="join_button" type="Button" parent="CanvasLayer/main_menu/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 30
-text = "Join"
-
-[node name="host_button" type="Button" parent="CanvasLayer/main_menu/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Host"
-
-[node name="play_button" type="Button" parent="CanvasLayer/main_menu/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-disabled = true
-text = "Start
-"
-
-[node name="member_list" type="VBoxContainer" parent="CanvasLayer/main_menu/VBoxContainer"]
-layout_mode = 2
-
-[connection signal="pressed" from="CanvasLayer/main_menu/VBoxContainer/HBoxContainer/join_button" to="." method="_on_join_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/main_menu/VBoxContainer/host_button" to="." method="_on_host_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/main_menu/VBoxContainer/play_button" to="." method="_on_play_button_pressed"]
+[node name="main_menu" parent="CanvasLayer" instance=ExtResource("3_aitxm")]

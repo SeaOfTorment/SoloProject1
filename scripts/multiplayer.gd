@@ -3,7 +3,7 @@ extends Node
 @onready var status_label = $CanvasLayer/main_menu/VBoxContainer/status
 @onready var name_entry = $CanvasLayer/main_menu/VBoxContainer/HBoxContainer/name_entry
 const PLAYER  = preload("res://players/player.tscn")
-var addr = "localhost"
+var addr = "studioentropy.ddns.net"
 var port = 6969
 var peer
 var player
