@@ -16,6 +16,7 @@ var abilities_cd = {
 var gravity = 20.0
 
 func _enter_tree():
+	if not is_multiplayer_authority(): return
 	set_multiplayer_authority(str(name).to_int())
 
 func _ready():
@@ -31,10 +32,12 @@ func _unhandled_input(event):
 		camera.rotate_x(-event.relative.y * 0.005)
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 
-func _input(event):
+func _input(_event):
 	if not is_multiplayer_authority(): return
 	if Input.is_action_just_pressed("left_click"):
 		shoot.rpc()
+	if Input.is_action_just_pressed("quit"):
+		get_tree().quit()
 
 @rpc("call_local")
 func update_hp_bar():
