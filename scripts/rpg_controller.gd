@@ -1,29 +1,35 @@
 extends CharacterBody3D
 
 @onready var camera = $Camera3D
+@onready var MAIN_SCENE = $"../"
+@onready var default_stats = $default_stats
+@onready var current_stats = $current_stats
 const ENERGY_SHOT = preload("res://assets/components/energy_shot.tscn")
 const SPEED = 10.0
 const JUMP_VELOCITY = 10.0
-var health = 100
+var local_id
 
 var abilities_cd = {
 	"left_click_cd" : 1.0,
 	"left_click_cd_left" : 0.0,
-	}
-
+}
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = 20.0
 
 func _enter_tree():
-	if not is_multiplayer_authority(): return
+	#pass
+	#if not is_multiplayer_authority(): return
 	set_multiplayer_authority(str(name).to_int())
 
 func _ready():
+	camera.current = false
+	local_id = MAIN_SCENE.local_id
 	if not is_multiplayer_authority(): return
-	
+	stats_setup.rpc()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	camera.current = true
+	$CanvasLayer.visible = true
 
 func _unhandled_input(event):
 	if not is_multiplayer_authority(): return
@@ -35,24 +41,36 @@ func _unhandled_input(event):
 func _input(_event):
 	if not is_multiplayer_authority(): return
 	if Input.is_action_just_pressed("left_click"):
-		shoot.rpc()
+		rpc("shoot", local_id)
 	if Input.is_action_just_pressed("quit"):
-		get_tree().quit()
+		if $CanvasLayer/settings.visible:
+			$CanvasLayer/settings.visible = false
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		else:
+			$CanvasLayer/settings.visible = true
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+@rpc("any_peer", "call_local")
+func damaged(dmg):#idk whats going on, sends to ALL not just your mirror, questions if others do similar?
+	#if not is_multiplayer_authority(): return
+	current_stats.data["current_health"] -= dmg
+	$SubViewport/ProgressBar.value = current_stats.data["current_health"]
+	$CanvasLayer/ProgressBar.value = current_stats.data["current_health"]
+	if current_stats.data["current_health"] == 0:
+		print("dead")
 
 @rpc("call_local")
-func update_hp_bar():
-	$SubViewport/ProgressBar.value = health
-	$CanvasLayer/ProgressBar.value = health
-	if health == 0:
-		print("dead")
-		
+func stats_setup():
+	current_stats.data["current_health"] = default_stats.data["health"]
+	current_stats.data["current_mana"] = default_stats.data["mana"]
+
 @rpc("call_local")
-func shoot():
+func shoot(id):
 	if abilities_cd["left_click_cd_left"] <= 0.0:
 		abilities_cd["left_click_cd_left"] = abilities_cd["left_click_cd"]
-		print(name + ": left_click")
+		#print("%s: left_click | from: %s" % [str(local_id), str(id)])
 		var energy_shot = ENERGY_SHOT.instantiate()
-		$"../".add_child(energy_shot)
+		MAIN_SCENE.add_child(energy_shot)
 		energy_shot.global_position = global_position
 		energy_shot.rotation_degrees = camera.global_rotation_degrees
 		
@@ -67,7 +85,7 @@ func _physics_process(delta):
 	if abilities_cd["left_click_cd_left"] > 0.0:
 		abilities_cd["left_click_cd_left"] -= delta
 	elif abilities_cd["left_click_cd_left"] < 0.0:
-		print("fixing")
+		#print("fixing")
 		abilities_cd["left_click_cd_left"] = int(0)
 		share_cds.rpc()
 		

@@ -1,7 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://h1dbhqtpgf1"]
+[gd_scene load_steps=12 format=3 uid="uid://h1dbhqtpgf1"]
 
 [ext_resource type="Script" path="res://scripts/rpg_controller.gd" id="1_pbjc4"]
 [ext_resource type="Texture2D" uid="uid://cnctyt8ksl3rs" path="res://players/face.jpg" id="2_6bqld"]
+[ext_resource type="PackedScene" uid="uid://dhh18r6cgpi6s" path="res://settings_ui.tscn" id="2_jwkyj"]
+[ext_resource type="Script" path="res://scripts/default_stats.gd" id="4_pt0p1"]
+[ext_resource type="Script" path="res://scripts/current_stats.gd" id="5_8u56j"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d4jvm"]
 
@@ -49,6 +52,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 replication_config = SubResource("SceneReplicationConfig_yq78v")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer"]
 anchors_preset = 10
@@ -64,6 +68,23 @@ theme_override_font_sizes/font_size = 50
 theme_override_styles/background = SubResource("StyleBoxFlat_puuah")
 theme_override_styles/fill = SubResource("StyleBoxFlat_6dvvb")
 value = 100.0
+
+[node name="settings" type="MarginContainer" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 250
+theme_override_constants/margin_top = 150
+theme_override_constants/margin_right = 250
+theme_override_constants/margin_bottom = 150
+
+[node name="settings_ui" parent="CanvasLayer/settings" instance=ExtResource("2_jwkyj")]
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
 
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
@@ -94,3 +115,9 @@ texture = SubResource("ViewportTexture_uuat2")
 transform = Transform3D(-0.15, 0, -1.31134e-08, 0, 0.15, 0, 1.31134e-08, 0, -0.15, 0, 0.706, -0.535)
 double_sided = false
 texture = ExtResource("2_6bqld")
+
+[node name="default_stats" type="Node" parent="."]
+script = ExtResource("4_pt0p1")
+
+[node name="current_stats" type="Node" parent="."]
+script = ExtResource("5_8u56j")

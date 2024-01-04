@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://10rl66lbwx5t"]
+[gd_scene load_steps=8 format=3 uid="uid://10rl66lbwx5t"]
 
 [ext_resource type="PackedScene" uid="uid://bsqbeq3a8rpfu" path="res://levels/test_level/modeling.glb" id="1_heiju"]
 [ext_resource type="Script" path="res://levels/test_level/modeling.gd" id="2_4cayy"]
 [ext_resource type="Script" path="res://levels/test_level/Marker3D_move.gd" id="3_fi8pq"]
+[ext_resource type="PackedScene" uid="uid://d3am3efj4n6uk" path="res://assets/components/energy_shot.tscn" id="4_8o08f"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_wx54k"]
 
@@ -41,3 +42,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_mv7y5")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_4pcv5")
+
+[node name="energy_shot" parent="." instance=ExtResource("4_8o08f")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 4.21137, -4.76837e-07, 2.62669)

@@ -1,0 +1,69 @@
+extends Panel
+
+
+@onready var option_button = $"HBoxContainer/visual_panel/HBoxContainer/MarginContainer/OptionButton"
+func _ready():
+	option_button.add_item("Windowed")
+	option_button.add_item("Fullscreen")
+
+
+func _on_option_button_item_selected(index):
+	if index == 0:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
+		get_window().size = Vector2i(1152, 648)
+	elif index == 1:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, true)
+
+
+func _on_check_button_toggled_fsr(toggled_on):
+	if toggled_on:
+		#ProjectSettings.set_setting("rendering/scaling_3d/mode", 2)
+		#ProjectSettings.set_setting("rendering/scaling_3d/scale", 0.4)
+		#ProjectSettings.save()
+		get_viewport().set_scaling_3d_mode(Viewport.SCALING_3D_MODE_FSR2)
+		get_viewport().set_scaling_3d_scale($"HBoxContainer/visual_panel/far_scaling/MarginContainer3/HSlider".value/100)
+		$"HBoxContainer/visual_panel/far_scaling".visible = true
+	else:
+		get_viewport().set_scaling_3d_mode(Viewport.SCALING_3D_MODE_BILINEAR)
+		get_viewport().set_scaling_3d_scale(1.00)
+		$"HBoxContainer/visual_panel/far_scaling".visible = false
+		#ProjectSettings.set_setting("rendering/scaling_3d/mode", 0)
+		#ProjectSettings.set_setting("rendering/scaling_3d/scale", 1)
+		#ProjectSettings.save()
+
+
+func _on_h_slider_value_changed(value):
+	get_viewport().set_scaling_3d_scale($"HBoxContainer/visual_panel/far_scaling/MarginContainer3/HSlider".value/100)
+
+
+func _on_quit_pressed():
+	get_tree().quit()
+
+
+func _on_h_slider_value_changed_audio(value):
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value/100))
+
+
+func _on_check_button_toggled_muted(toggled_on):
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), toggled_on)
+
+
+
+func _on_visual_pressed():
+	$HBoxContainer/audio_panel.visible = false
+	$HBoxContainer/visual_panel.visible = true
+
+
+func _on_audio_pressed():
+	$HBoxContainer/visual_panel.visible = false
+	$HBoxContainer/audio_panel.visible = true
+
+
+func _on_h_slider_value_changed_SFX(value):
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear_to_db(value/100))
+
+
+func _on_check_button_toggled_SFX(toggled_on):
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("SFX"), toggled_on)

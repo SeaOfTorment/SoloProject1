@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bwheq3wvyuxe6"]
+
+[node name="LogMenu" type="MarginContainer"]
+custom_minimum_size = Vector2(286.035, 255.83)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Logs" type="VBoxContainer" parent="."]
+layout_mode = 2
