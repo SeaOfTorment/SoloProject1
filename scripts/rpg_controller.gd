@@ -4,7 +4,7 @@ extends CharacterBody3D
 @onready var MAIN_SCENE = $"../"
 @onready var default_stats = $default_stats
 @onready var current_stats = $current_stats
-const ENERGY_SHOT = preload("res://assets/components/energy_shot.tscn")
+const ENERGY_SHOT = preload("res://assets/components/fire_ball.tscn")
 const SPEED = 10.0
 const JUMP_VELOCITY = 10.0
 var local_id
@@ -25,6 +25,11 @@ func _enter_tree():
 func _ready():
 	camera.current = false
 	local_id = MAIN_SCENE.local_id
+	for member in MAIN_SCENE.members:
+		if str(member["user_id"]) == name:
+			$SubViewport/MarginContainer/Label.text = member["user_name"]
+	if str(local_id) != name:
+		$overhead_plate.visible = true
 	if not is_multiplayer_authority(): return
 	stats_setup.rpc()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -51,8 +56,11 @@ func _input(_event):
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 @rpc("any_peer", "call_local")
-func damaged(dmg):#idk whats going on, sends to ALL not just your mirror, questions if others do similar?
+func damaged(dmg, id):#idk whats going on, sends to ALL not just your mirror, questions if others do similar?
 	#if not is_multiplayer_authority(): return
+	#print("[%s]: [%s] damaged" % [str(local_id), name])
+	if not name == id: return
+	print("deduced %s" % str(dmg))
 	current_stats.data["current_health"] -= dmg
 	$SubViewport/ProgressBar.value = current_stats.data["current_health"]
 	$CanvasLayer/ProgressBar.value = current_stats.data["current_health"]
@@ -61,6 +69,7 @@ func damaged(dmg):#idk whats going on, sends to ALL not just your mirror, questi
 
 @rpc("call_local")
 func stats_setup():
+	#print("stat_setup ran in server %s" % local_id)
 	current_stats.data["current_health"] = default_stats.data["health"]
 	current_stats.data["current_mana"] = default_stats.data["mana"]
 
@@ -70,6 +79,7 @@ func shoot(id):
 		abilities_cd["left_click_cd_left"] = abilities_cd["left_click_cd"]
 		#print("%s: left_click | from: %s" % [str(local_id), str(id)])
 		var energy_shot = ENERGY_SHOT.instantiate()
+		energy_shot.caster = id
 		MAIN_SCENE.add_child(energy_shot)
 		energy_shot.global_position = global_position
 		energy_shot.rotation_degrees = camera.global_rotation_degrees

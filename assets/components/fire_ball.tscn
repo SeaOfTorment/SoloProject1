@@ -1,0 +1,119 @@
+[gd_scene load_steps=19 format=3 uid="uid://yrlaynltv7l0"]
+
+[ext_resource type="Script" path="res://scripts/abilities/energy_shot.gd" id="1_sfom0"]
+[ext_resource type="AudioStream" uid="uid://oda7mws6kuq8" path="res://assets/SFX/Fire/fire_woosh_edited.wav" id="2_ph76c"]
+[ext_resource type="AudioStream" uid="uid://xj35kidcntpv" path="res://assets/SFX/Energy/hit.wav" id="4_cth3o"]
+[ext_resource type="AudioStream" uid="uid://b440f1we0i4ts" path="res://assets/SFX/Fire/explosion_hit_adjusted.wav" id="4_mihkx"]
+
+[sub_resource type="Curve" id="Curve_hluut"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.122807, 1), 0.0, 0.0, 0, 0, Vector2(0.811404, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_r5uqu"]
+curve = SubResource("Curve_hluut")
+
+[sub_resource type="Gradient" id="Gradient_i1tvt"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0.06, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_durol"]
+gradient = SubResource("Gradient_i1tvt")
+
+[sub_resource type="Curve" id="Curve_tdd6m"]
+max_value = 5.0
+_data = [Vector2(0, 5), 0.0, 0.0, 0, 0, Vector2(0.223684, 5), 0.0, 0.0, 0, 0, Vector2(0.657895, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_b7k2i"]
+curve = SubResource("Curve_tdd6m")
+
+[sub_resource type="Curve" id="Curve_3x4y0"]
+max_value = 2.0
+_data = [Vector2(0.162281, 1.2967), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_o2fax"]
+curve = SubResource("Curve_3x4y0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sqh6y"]
+angle_min = 123.8
+angle_max = 258.8
+direction = Vector3(0, 0, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_o2fax")
+color_ramp = SubResource("GradientTexture1D_durol")
+alpha_curve = SubResource("CurveTexture_r5uqu")
+emission_curve = SubResource("CurveTexture_b7k2i")
+
+[sub_resource type="Gradient" id="Gradient_ycqrq"]
+offsets = PackedFloat32Array(0.534314, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nan5x"]
+gradient = SubResource("Gradient_ycqrq")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6f1e4"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_nan5x")
+billboard_mode = 1
+billboard_keep_scale = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_md1hy"]
+material = SubResource("StandardMaterial3D_6f1e4")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dqjmo"]
+
+[node name="fire_ball" type="Area3D"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+script = ExtResource("1_sfom0")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+amount = 300
+visibility_aabb = AABB(-4, -4, -4, 9999, 9999, 9999)
+process_material = SubResource("ParticleProcessMaterial_sqh6y")
+draw_pass_1 = SubResource("QuadMesh_md1hy")
+
+[node name="travel_timer" type="Timer" parent="."]
+wait_time = 1.2
+one_shot = true
+autostart = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+shape = SubResource("BoxShape3D_dqjmo")
+
+[node name="travel" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_ph76c")
+volume_db = -5.0
+max_db = 0.0
+max_distance = 55.0
+bus = &"SFX"
+
+[node name="hit" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_cth3o")
+volume_db = 7.0
+max_db = 6.0
+max_distance = 40.0
+bus = &"SFX"
+
+[node name="explosion" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_mihkx")
+max_distance = 100.0
+bus = &"SFX"
+
+[node name="delete_timer" type="Timer" parent="."]
+wait_time = 2.5
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="finished" from="GPUParticles3D" to="." method="_on_gpu_particles_3d_finished"]
+[connection signal="timeout" from="travel_timer" to="." method="_on_travel_timer_timeout"]
+[connection signal="timeout" from="delete_timer" to="." method="_on_delete_timer_timeout"]

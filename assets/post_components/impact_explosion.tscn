@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdr2x31y0gmmq"]
+
+[ext_resource type="Script" path="res://scripts/explosion.gd" id="1_cpcaq"]
+[ext_resource type="PackedScene" uid="uid://bpg411v1wnyna" path="res://assets/particles/explosion.tscn" id="1_pqsat"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mr77k"]
+radius = 5.0
+
+[node name="ImpactExplosion" type="Area3D"]
+script = ExtResource("1_cpcaq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_mr77k")
+
+[node name="Explosion" parent="." instance=ExtResource("1_pqsat")]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="Explosion"]

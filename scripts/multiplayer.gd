@@ -5,7 +5,7 @@ extends Node
 @onready var logs = $CanvasLayer/LogMenu/Logs
 @onready var member_list = $CanvasLayer/main_menu/VBoxContainer/member_list
 const PLAYER  = preload("res://players/player.tscn")
-var addr = "localhost"#"studioentropy.ddns.net"
+var addr = "studioentropy.ddns.net"#"localhost"#
 var port = 6969
 var peer
 var members = []
@@ -102,6 +102,7 @@ func _on_play_button_pressed():
 	$CanvasLayer/main_menu.visible = false
 	$CanvasLayer/LogMenu.visible = false
 	rpc("spawn_player", local_id)
+	$env/music.play()
 
 @rpc("any_peer", "call_local")
 func spawn_player(id):

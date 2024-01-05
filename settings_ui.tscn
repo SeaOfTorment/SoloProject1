@@ -190,7 +190,7 @@ theme_override_constants/margin_top = 10
 [node name="audio_lvl" type="Label" parent="HBoxContainer/audio_panel/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 31
-text = "Master Audio"
+text = "Music Audio"
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/audio_panel/HBoxContainer"]
 layout_mode = 2
@@ -268,7 +268,7 @@ expand_icon = true
 [connection signal="value_changed" from="HBoxContainer/visual_panel/far_scaling/MarginContainer3/HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="value_changed" from="HBoxContainer/audio_panel/HBoxContainer/MarginContainer/HSlider" to="." method="_on_h_slider_value_changed_audio"]
 [connection signal="toggled" from="HBoxContainer/audio_panel/HBoxContainer2/MarginContainer2/CheckButton" to="." method="_on_check_button_toggled_muted"]
-[connection signal="value_changed" from="HBoxContainer/audio_panel/HBoxContainer3/MarginContainer/HSlider" to="." method="_on_h_slider_value_changed_audio"]
 [connection signal="value_changed" from="HBoxContainer/audio_panel/HBoxContainer3/MarginContainer/HSlider" to="." method="_on_h_slider_value_changed_SFX"]
+[connection signal="value_changed" from="HBoxContainer/audio_panel/HBoxContainer3/MarginContainer/HSlider" to="." method="_on_h_slider_value_changed_audio"]
 [connection signal="toggled" from="HBoxContainer/audio_panel/HBoxContainer4/MarginContainer2/CheckButton" to="." method="_on_check_button_toggled_muted"]
 [connection signal="toggled" from="HBoxContainer/audio_panel/HBoxContainer4/MarginContainer2/CheckButton" to="." method="_on_check_button_toggled_SFX"]

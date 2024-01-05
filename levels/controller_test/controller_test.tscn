@@ -1,11 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://g56mntsxuu7g"]
+[gd_scene load_steps=9 format=3 uid="uid://g56mntsxuu7g"]
 
 [ext_resource type="PackedScene" uid="uid://bgqvur181hahf" path="res://assets/env/environment.tscn" id="2_uouvs"]
 [ext_resource type="PackedScene" uid="uid://drekehqvvv4ug" path="res://ui/main_menu.tscn" id="3_aitxm"]
+[ext_resource type="AudioStream" uid="uid://blhljkrpj10gn" path="res://assets/SFX/06 - the battle is to the strong.ogg" id="3_ur084"]
 [ext_resource type="Script" path="res://scripts/multiplayer.gd" id="3_v3tna"]
 [ext_resource type="PackedScene" uid="uid://bwheq3wvyuxe6" path="res://ui/log_menu.tscn" id="4_sr2es"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7wos6"]
+sky_top_color = Color(0.25098, 0.301961, 0.376471, 1)
 
 [sub_resource type="Sky" id="Sky_kix8k"]
 sky_material = SubResource("ProceduralSkyMaterial_7wos6")
@@ -13,17 +15,18 @@ sky_material = SubResource("ProceduralSkyMaterial_7wos6")
 [sub_resource type="Environment" id="Environment_ahbk3"]
 background_mode = 2
 sky = SubResource("Sky_kix8k")
-tonemap_mode = 3
 ssr_enabled = true
 ssao_enabled = true
 ssil_enabled = true
 glow_enabled = true
-glow_strength = 0.8
+glow_intensity = 1.49
+glow_strength = 0.76
 glow_blend_mode = 1
 fog_enabled = true
 fog_light_color = Color(0.313726, 0.384314, 0.501961, 1)
 adjustment_enabled = true
-adjustment_contrast = 1.25
+adjustment_contrast = 1.4
+adjustment_saturation = 1.06
 
 [node name="controller_test" type="Node3D"]
 script = ExtResource("3_v3tna")
@@ -41,8 +44,13 @@ environment = SubResource("Environment_ahbk3")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="env"]
 transform = Transform3D(-0.875088, -0.128396, 0.466621, 0.18746, 0.798972, 0.571404, -0.446183, 0.587502, -0.675102, 0, 10, 0)
+light_energy = 0.6
 shadow_enabled = true
 shadow_opacity = 0.7
+
+[node name="music" type="AudioStreamPlayer" parent="env"]
+stream = ExtResource("3_ur084")
+volume_db = -14.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

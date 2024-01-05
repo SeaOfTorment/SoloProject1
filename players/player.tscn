@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://h1dbhqtpgf1"]
+[gd_scene load_steps=13 format=3 uid="uid://h1dbhqtpgf1"]
 
 [ext_resource type="Script" path="res://scripts/rpg_controller.gd" id="1_pbjc4"]
 [ext_resource type="Texture2D" uid="uid://cnctyt8ksl3rs" path="res://players/face.jpg" id="2_6bqld"]
 [ext_resource type="PackedScene" uid="uid://dhh18r6cgpi6s" path="res://settings_ui.tscn" id="2_jwkyj"]
 [ext_resource type="Script" path="res://scripts/default_stats.gd" id="4_pt0p1"]
 [ext_resource type="Script" path="res://scripts/current_stats.gd" id="5_8u56j"]
+[ext_resource type="PackedScene" uid="uid://dfs56y6tiam3m" path="res://assets/object_imports/Archon Arc Export.glb" id="6_7atmm"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d4jvm"]
 
@@ -17,6 +18,9 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath("Camera3D:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_puuah"]
 bg_color = Color(0.113725, 0.0313726, 0, 1)
@@ -90,14 +94,17 @@ size_flags_vertical = 1
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(302, 62)
+size = Vector2i(302, 124)
 
 [node name="ProgressBar" type="ProgressBar" parent="SubViewport"]
-anchors_preset = 15
+anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -69.64
+offset_bottom = -0.639969
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 size_flags_horizontal = 6
 size_flags_vertical = 6
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -106,10 +113,27 @@ theme_override_styles/background = SubResource("StyleBoxFlat_puuah")
 theme_override_styles/fill = SubResource("StyleBoxFlat_6dvvb")
 value = 100.0
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_bottom = 70
+
+[node name="Label" type="Label" parent="SubViewport/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+horizontal_alignment = 1
+
+[node name="overhead_plate" type="Sprite3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1.61384, 0)
 billboard = 1
 texture = SubResource("ViewportTexture_uuat2")
+region_rect = Rect2(18.26, 0, 0, 0)
 
 [node name="face" type="Sprite3D" parent="."]
 transform = Transform3D(-0.15, 0, -1.31134e-08, 0, 0.15, 0, 1.31134e-08, 0, -0.15, 0, 0.706, -0.535)
@@ -121,3 +145,6 @@ script = ExtResource("4_pt0p1")
 
 [node name="current_stats" type="Node" parent="."]
 script = ExtResource("5_8u56j")
+
+[node name="Archon Arc Export" parent="." instance=ExtResource("6_7atmm")]
+transform = Transform3D(-4.37114e-08, 0, -1, 1, -4.37114e-08, -4.37114e-08, -4.37114e-08, -1, 1.91069e-15, 0, 0.791882, 0.589159)
