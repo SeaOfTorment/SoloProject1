@@ -39,7 +39,7 @@ func _on_body_entered(body):
 		speed = 0
 		$hit.playing = true
 		if multiplayer.get_unique_id() == 1:
-			body.rpc("damaged", 18, body.name)
+			body.rpc("damaged", 10, body.name)
 		if not has_exploded:
 			has_exploded = true
 			explode()

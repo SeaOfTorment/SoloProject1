@@ -20,3 +20,5 @@ func _on_body_entered(body):
 	if "current_stats" in body and body.name != str(caster):
 		set_deferred("monitoring", false)
 		print("explosion hit %s", body.name)
+		if multiplayer.get_unique_id() == 1:
+			body.rpc("damaged", 8, body.name)
