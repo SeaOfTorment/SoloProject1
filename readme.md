@@ -1,28 +1,26 @@
-Planned features:
+# Planned features:
+- [] Make a system for ability attributes - refer to Ability details for more info
 
-Make a system for ability attributes - refer to Ability details for more info
+- [] Add smoothing to player position/rotation
 
-Add smoothing to player position/rotation
+- [] Think of how abilities can be switched (hotbar like minecraft? like league? like elden ring?)
 
-Think of how abilities can be switched (hotbar like minecraft? like league? like elden ring?)
+- [] Make new map
 
-Make new map
+- [] Make interactables on map (explosive barrels, buffs, maybe takes some ideas from The Finals?)
 
-Make interactables on map (explosive barrels, buffs, maybe takes some ideas from The Finals?)
+- [] Add mana system
 
-Add mana system
+- [] Intergrate way of getting abilities (more info on Ability aquisition)
 
-Intergrate way of getting abilities (more info on Ability aquisition)
+- [] Make environmental hazards (water = insta death?, spikes, etc)
 
-Make environmental hazards (water = insta death?, spikes, etc)
+- [] Make respawn system
 
-Make respawn system
-
-Find a way to add a texture overlay on existing material (like bullet hole, burn mark on wall)
-
+- [] Find a way to add a texture overlay on existing material (like bullet hole, burn mark on wall)
 
 
----[ Ability details 
+## Ability details 
 Everything will be in components, the planner will have the ability to adjust
 the nature and behavior of their abilities, they'll be like building blocks.
 It will consist mainly of a few types, for projectiles it's:
@@ -42,8 +40,23 @@ components for end can be:
 shockwave - creates a shockwave when colliding/ending spell, extra dmg
 guiser - creates a guiser that knocks up, and slows anyone who gets caught
 pool - creates a circle of healing that can heal when inside the zone, can only heal for half the dmg done
----] End of ability details
 
----[ Ability aquisition
+
+## Ability aquisition
 (still thinking)
----]
+
+
+## Possible Features
+- A system of 4 different elemental types; each with their own special effect. ie. fire would be
+  extra damage, water would be slows, air would be utility, and earth would be defense/terrain
+  modification.
+
+- Gragas ult for an air ability where there will be knockback or can be used to knockback the user
+  towards a direction like junkrat, ziggs, raze.
+
+- There will be upgraded versions of the based element spell and the player will be able to put
+  points into specific elements that they will use in the game. The game will be balanced by setting
+  a flat amount of points available to each player and the player will have the freedom to choose
+  the focused abilities that they have.
+
+
