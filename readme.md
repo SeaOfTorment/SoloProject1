@@ -1,23 +1,23 @@
 # Planned features:
-- [] Make a system for ability attributes - refer to Ability details for more info
+- [ ] Make a system for ability attributes - refer to Ability details for more info
 
-- [] Add smoothing to player position/rotation
+- [ ] Add smoothing to player position/rotation
 
-- [] Think of how abilities can be switched (hotbar like minecraft? like league? like elden ring?)
+- [ ] Think of how abilities can be switched (hotbar like minecraft? like league? like elden ring?)
 
-- [] Make new map
+- [ ] Make new map
 
-- [] Make interactables on map (explosive barrels, buffs, maybe takes some ideas from The Finals?)
+- [ ] Make interactables on map (explosive barrels, buffs, maybe takes some ideas from The Finals?)
 
-- [] Add mana system
+- [ ] Add mana system
 
-- [] Intergrate way of getting abilities (more info on Ability aquisition)
+- [ ] Intergrate way of getting abilities (more info on Ability aquisition)
 
-- [] Make environmental hazards (water = insta death?, spikes, etc)
+- [ ] Make environmental hazards (water = insta death?, spikes, etc)
 
-- [] Make respawn system
+- [ ] Make respawn system
 
-- [] Find a way to add a texture overlay on existing material (like bullet hole, burn mark on wall)
+- [ ] Find a way to add a texture overlay on existing material (like bullet hole, burn mark on wall)
 
 
 ## Ability details 
